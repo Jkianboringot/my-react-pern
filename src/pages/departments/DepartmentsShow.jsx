@@ -15,8 +15,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, usePaginatedQuery } from "../../hooks/useApi";
 import {
   fetchDepartmentStudents,
-  fetchDepartmentTeachers,fetchDepartmentClasses,
-
+  fetchDepartmentTeachers,
+  fetchDepartmentClasses,
+  fetchDepartmentSubjects,
   fetchDepartment,
 } from "../../api/departments";
 import {
@@ -76,7 +77,6 @@ export default function DepartmentsShow() {
     [id],
   );
 
-
   const {
     data: classes,
     loading: classesLoading,
@@ -84,17 +84,20 @@ export default function DepartmentsShow() {
     setPage: setClassesPage,
     total: classesTotal,
   } = usePaginatedQuery(
-    (p) =>
-      fetchDepartmentClasses(id, { page: p, pageSize: 5 }),
+    (p) => fetchDepartmentClasses(id, { page: p, pageSize: 5 }),
     [id],
   );
 
-
-
-
-
-
-
+  const {
+    data: subjects,
+    loading: subjectsLoading,
+    page: subjectsPage,
+    setPage: setSubjectsPage,
+    total: subjectsTotal,
+  } = usePaginatedQuery(
+    (p) => fetchDepartmentSubjects(id, { page: p, pageSize: 5 }),
+    [id],
+  );
 
   // ── Loading / error states ─────────────────────────────────────────────────
   if (loading) return <LoadingState message="Loading class details..." />;
@@ -106,7 +109,7 @@ export default function DepartmentsShow() {
   // ── Student table columns ──────────────────────────────────────────────────
   const studentColumns = [
     {
-      key:'id',
+      key: "id",
       label: "Student",
       render: (_, row) => (
         <div className="user-cell">
@@ -135,7 +138,7 @@ export default function DepartmentsShow() {
 
   const teacherColumns = [
     {
-      key:'id',
+      key: "id",
 
       label: "Teacher",
       render: (_, row) => (
@@ -163,9 +166,7 @@ export default function DepartmentsShow() {
     },
   ];
 
-
-  
-const classColumns = [
+  const classColumns = [
     {
       key: "bannerUrl",
       label: "Banner",
@@ -185,9 +186,7 @@ const classColumns = [
       key: "status",
       label: "Status",
       render: (status) => (
-        <Badge color={status === "active" ? "green" : "gray"}>
-          {status}
-        </Badge>
+        <Badge color={status === "active" ? "green" : "gray"}>{status}</Badge>
       ),
     },
     {
@@ -224,6 +223,41 @@ const classColumns = [
       ),
     },
   ];
+
+
+ const subjectColumns = [
+    {
+      key: "code",
+      label: "Code",
+     
+    },
+    {
+      key: "name",
+      label: "Subject Name",
+    },
+    {
+      key: "description",
+      label: "Description",
+    
+    },
+    
+    {
+      label: "Actions",
+      render: (_, row) => (
+        <Button
+          variant="outline"
+          size="sm"
+          // navigate() is the React Router equivalent of <a href="...">
+          // but without a full page reload
+          onClick={() => navigate(`/subjects/show/${row.id}`)}
+        >
+          View
+        </Button>
+      ),
+    },
+  ];
+
+  
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="class-show">
@@ -239,7 +273,10 @@ const classColumns = [
       </div>
 
 
-  <Card>
+
+
+
+      <Card>
         <CardHeader>
           <CardTitle>Classes</CardTitle>
         </CardHeader>
@@ -261,8 +298,26 @@ const classColumns = [
       </Card>
 
 
-
-
+  <Card>
+        <CardHeader>
+          <CardTitle>Subjects</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {subjectsLoading ? (
+            <LoadingState message="Loading subjects..." />
+          ) : (
+            <>
+              <Table columns={subjectColumns} rows={subjects ?? []} />
+              <Pagination
+                page={subjectsPage}
+                pageSize={5}
+                total={subjectsTotal}
+                onPageChange={setSubjectsPage}
+              />
+            </>
+          )}
+        </CardContent>
+      </Card>
       {/* Enrolled students */}
       <Card>
         <CardHeader>

@@ -34,11 +34,7 @@ export function fetchDepartmentClasses(departmentId, params = {}) {
 }
 
 
-
-export function fetchSubjects() {
-  return get("/subjects?pageSize=100");
-}
-
-export function fetchTeachers() {
-  return get("/users?role=teacher&pageSize=100");
+export function fetchDepartmentSubjects(departmentId, params = {}) {
+  const query = new URLSearchParams(params).toString();
+  return get(`/departments/${departmentId}/subjects`);
 }
