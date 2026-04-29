@@ -30,7 +30,7 @@ import ClassesShow from "./pages/classes/ClassesShow";
 
 import DepartmentsList from "./pages/departments/DepartmentsList";
 // import DepartmentsCreate from "./pages/departments/DepartmentsCreate";
-// import DepartmentsShow from "./pages/departments/DepartmentsShow";
+import DepartmentsShow from "./pages/departments/DepartmentsShow";
 
 // Placeholder pages — swap these out with your real pages
 const Dashboard = () => <div><h1 className="page-title">Dashboard</h1><p style={{ marginTop: 12, color: "var(--text-muted)" }}>Welcome back!</p></div>;
@@ -88,7 +88,7 @@ export default function App() {
 
                  <Route path="/departments" element={<DepartmentsList />} />
                   {/* <Route path="/departments/create" element={<DepartmentsCreate />} /> */}
-                  {/* <Route path="/departments/show/:id" element={<DepartmentsShow />} /> */} 
+                  <Route path="/departments/show/:id" element={<DepartmentsShow />} /> 
 
 
                   {/* Add your other pages here, e.g.: */}

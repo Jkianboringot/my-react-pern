@@ -23,6 +23,17 @@ export function fetchDepartmentStudents(departmentId, params = {}) {
   const query = new URLSearchParams(params).toString();
   return get(`/departments/${departmentId}/users${query ? `?${query}` : ""}`);
 }
+export function fetchDepartmentTeachers(departmentId, params = {}) {
+  const query = new URLSearchParams(params).toString();
+  return get(`/departments/${departmentId}/users${query ? `?${query}` : ""}`);
+}
+
+export function fetchDepartmentClasses(departmentId, params = {}) {
+  const query = new URLSearchParams(params).toString();
+  return get(`/departments/${departmentId}/classes`);
+}
+
+
 
 export function fetchSubjects() {
   return get("/subjects?pageSize=100");

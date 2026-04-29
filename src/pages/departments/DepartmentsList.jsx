@@ -70,7 +70,7 @@ export default function DepartmentsList() {
       label: "Department Name",
     },
     {
-      key: "descriptions",
+      key: "description",
       label: "Description",
     
     },

@@ -388,6 +388,7 @@ body.dark-mode .theme-toggle .icon-moon { display: none; }
   justify-content: space-between;
 }
 .card-title {
+  color:black;
   font-size: 1rem;
   font-weight: 600;
 }
