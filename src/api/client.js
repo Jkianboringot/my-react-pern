@@ -14,7 +14,10 @@
  * and the rest of your components stay exactly the same.
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+
+// htis is how to connec to backend, think of it all your requiest as a presset of http://localhost:8000 which is needed to 
+// call backend, and now you just have to put the url of this frontend to backend cors
+const BASE_URL = import.meta.env.BACKEND_URL || "http://localhost:8000/api";
 
 /**
  * Reads the JWT token from localStorage.

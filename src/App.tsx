@@ -23,13 +23,18 @@ import "./App.css";
 
 // ── Page imports ──────────────────────────────────────────────────────────────
 // Each page is a separate component. React only loads them when needed.
-import ClassesList   from "./pages/classes/ClassesList";
+import ClassesList from "./pages/classes/ClassesList";
 import ClassesCreate from "./pages/classes/ClassesCreate";
-import ClassesShow   from "./pages/classes/ClassesShow";
+import ClassesShow from "./pages/classes/ClassesShow";
+
+
+import DepartmentsList from "./pages/departments/DepartmentsList";
+// import DepartmentsCreate from "./pages/departments/DepartmentsCreate";
+// import DepartmentsShow from "./pages/departments/DepartmentsShow";
 
 // Placeholder pages — swap these out with your real pages
-const Dashboard  = () => <div><h1 className="page-title">Dashboard</h1><p style={{marginTop:12,color:"var(--text-muted)"}}>Welcome back!</p></div>;
-const NotFound   = () => <div><h1 className="page-title">404 — Page not found</h1></div>;
+const Dashboard = () => <div><h1 className="page-title">Dashboard</h1><p style={{ marginTop: 12, color: "var(--text-muted)" }}>Welcome back!</p></div>;
+const NotFound = () => <div><h1 className="page-title">404 — Page not found</h1></div>;
 
 // ── Simple auth check ─────────────────────────────────────────────────────────
 // In a real app this checks a token or user context.
@@ -54,26 +59,37 @@ export default function App() {
       <Routes>
 
         {/* ── Public routes (no sidebar) ── */}
-        <Route path="/login"    element={<div>Login page</div>} />
+        <Route path="/login" element={<div>Login page</div>} />
         <Route path="/register" element={<div>Register page</div>} />
 
         {/* ── Protected routes (wrapped in Layout = sidebar + topbar) ── */}
         <Route
+          // "/*" means everything so it loads layout ,
+          //  so its like if route is everything or nothing run element
           path="/*"
+
           element={
+            //like the middleware, it check if user is authenticated
             <ProtectedRoute>
+              {/* holds everything like side bar so it not repeat everything, and we just pass 
+              children to it */}
               <Layout>
                 {/*
                   Nested Routes inside Layout.
                   React Router will match these paths against the current URL.
                 */}
                 <Routes>
-                  <Route path="/"                element={<Dashboard />} />
+                  <Route path="/" element={<Dashboard />} />
 
                   {/* Classes */}
-                  <Route path="/classes"          element={<ClassesList />} />
-                  <Route path="/classes/create"   element={<ClassesCreate />} />
+                  <Route path="/classes" element={<ClassesList />} />
+                  <Route path="/classes/create" element={<ClassesCreate />} />
                   <Route path="/classes/show/:id" element={<ClassesShow />} />
+
+                 <Route path="/departments" element={<DepartmentsList />} />
+                  {/* <Route path="/departments/create" element={<DepartmentsCreate />} /> */}
+                  {/* <Route path="/departments/show/:id" element={<DepartmentsShow />} /> */} 
+
 
                   {/* Add your other pages here, e.g.: */}
                   {/* <Route path="/subjects"         element={<SubjectsList />} /> */}

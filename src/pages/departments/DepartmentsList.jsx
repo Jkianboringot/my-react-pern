@@ -1,8 +1,8 @@
 /**
- * pages/classes/ClassesList.jsx
+ * pages/departments/DepartmentsList.jsx
  *
  * This page:
- *   1. Fetches classes from the backend (with search + filter + pagination)
+ *   1. Fetches departments from the backend (with search + filter + pagination)
  *   2. Renders them in a table
  *   3. Lets the user navigate to the detail page
  *
@@ -16,13 +16,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePaginatedQuery, useQuery } from "../../hooks/useApi";
-import { fetchClasses, fetchSubjects, fetchTeachers } from "../../api/classes";
+import { fetchDepartments, fetchSubjects, fetchTeachers } from "../../api/departments"; 
 import {
   Button, Badge, Table, Pagination,
   LoadingState, ErrorState, Separator,
 } from "../../components/UI";
 
-export default function ClassesList() {
+export default function DepartmentsList() {
   const navigate = useNavigate();
 
   // ── Filter state ────────────────────────────────────────────────────────────
@@ -30,14 +30,13 @@ export default function ClassesList() {
   // When any of these change, the useEffect inside usePaginatedQuery re-runs,
   // which sends a new request to the backend with the updated params.
   const [search, setSearch]           = useState("");
-  const [selectedSubject, setSubject] = useState("");
-  const [selectedTeacher, setTeacher] = useState("");
+
 
   // ── Data fetching ───────────────────────────────────────────────────────────
   // usePaginatedQuery takes a function that receives the current page number
   // and returns a Promise. The hook manages loading/error/data/page for us.
   const {
-    data: classes,
+    data: departments,
     loading,
     error,
     page,
@@ -45,74 +44,43 @@ export default function ClassesList() {
     total,
   } = usePaginatedQuery(
     (p) =>
-      fetchClasses({
+      fetchDepartments({
         page: p,
         pageSize: 10,
         name: search,
-        subject: selectedSubject,
-        teacher: selectedTeacher,
+      
       }),
     // These are "extra deps" — when any of these change, go back to page 1
     // and re-fetch. This is the pure-React equivalent of Refine's filters.
-    [search, selectedSubject, selectedTeacher]
+    [search]
   );
 
-  // Fetch filter options (subjects and teachers for the dropdowns)
-  // useQuery with [] means "fetch once, never refetch"
-              // CACHE - this need to be cache,
-  const { data: subjectsData } = useQuery(() => fetchSubjects(), []);
-  const { data: teachersData } = useQuery(() => fetchTeachers(), []);
-
-  const subjects = subjectsData?.data ?? [];
-  const teachers = teachersData?.data ?? [];
 
   // ── Table column definitions ─────────────────────────────────────────────
   // Each column says: what data key to use, what label to show,
   // and optionally a `render` function to control how it looks.
   const columns = [
     {
-      key: "bannerUrl",
-      label: "Banner",
-      width: 80,
-      render: (url) =>
-        url ? (
-          <img src={url} alt="banner" className="class-banner-thumb" />
-        ) : (
-          <span className="td-muted">—</span>
-        ),
+      key: "code",
+      label: "Code",
+     
     },
     {
       key: "name",
-      label: "Class Name",
+      label: "Department Name",
     },
     {
-      key: "status",
-      label: "Status",
-      render: (status) => (
-        <Badge color={status === "active" ? "green" : "gray"}>
-          {status}
-        </Badge>
-      ),
+      key: "descriptions",
+      label: "Description",
+    
     },
-    {
-      label: "Subject",
-      // When there's no `key`, render receives (undefined, row) — use `row`
-      render: (_, row) =>
-        row.subject?.name ? (
-          <Badge color="outline">{row.subject.name}</Badge>
-        ) : (
-          <span className="td-muted">Not set</span>
-        ),
+     {
+      key: "id",
+      label: "Department",
+    
     },
-    {
-      label: "Teacher",
-      render: (_, row) =>
-        row.teacher?.name ?? <span className="td-muted">Not assigned</span>,
-    },
-    {
-      key: "capacity",
-      label: "Capacity",
-    },
+
+   
     {
       label: "Actions",
       render: (_, row) => (
@@ -121,7 +89,7 @@ export default function ClassesList() {
           size="sm"
           // navigate() is the React Router equivalent of <a href="...">
           // but without a full page reload
-          onClick={() => navigate(`/classes/show/${row.id}`)}
+          onClick={() => navigate(`/departments/show/${row.id}`)}
         >
           View
         </Button>
@@ -132,7 +100,7 @@ export default function ClassesList() {
   // ── Render ───────────────────────────────────────────────────────────────
   return (
     <div>
-      {/* <h1 className="page-title">Classes</h1> */}
+      {/* <h1 className="page-title">Departments</h1> */}
 
       <div className="intro-row">
        
@@ -156,33 +124,8 @@ export default function ClassesList() {
             />
           </div>
 
-          {/* Subject filter */}
-          <select
-            className="select"
-            style={{ width: 160 }}
-            value={selectedSubject}
-            onChange={(e) => { setSubject(e.target.value); setPage(1); }}
-          >
-            <option value="">All Subjects</option>
-            {subjects.map((s) => (
-              <option key={s.id} value={s.name}>{s.name}</option>
-            ))}
-          </select>
-
-          {/* Teacher filter */}
-          <select
-            className="select"
-            style={{ width: 160 }}
-            value={selectedTeacher}
-            onChange={(e) => { setTeacher(e.target.value); setPage(1); }}
-          >
-            <option value="">All Teachers</option>
-            {teachers.map((t) => (
-              <option key={t.id} value={t.name}>{t.name}</option>
-            ))}
-          </select>
-
-          <Button onClick={() => navigate("/classes/create")}>
+    
+          <Button onClick={() => navigate("/departments/create")}>
             + Create Class
           </Button>
         </div>
@@ -192,12 +135,12 @@ export default function ClassesList() {
 
       {/* Conditional rendering — show the right UI based on state */}
       {loading ? (
-        <LoadingState message="Loading classes..." />
+        <LoadingState message="Loading departments..." />
       ) : error ? (
         <ErrorState message={error} />
       ) : (
         <>
-          <Table columns={columns} rows={classes} />
+          <Table columns={columns} rows={departments} />
           <Pagination
             page={page}
             pageSize={10}

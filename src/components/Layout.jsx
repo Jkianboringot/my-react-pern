@@ -35,7 +35,7 @@ const NAV_ITEMS = [
 
 export function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const location = useLocation();
+  const location = useLocation();//current location or url you are at
 
   // Build a simple breadcrumb from the current URL
   // "/classes/show/5" → ["Classes", "Show", "5"]

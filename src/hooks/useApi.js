@@ -17,7 +17,7 @@
  *   You call it from a component, and it returns whatever state you need.
  */
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, use } from "react";
 
 // ─── useQuery ────────────────────────────────────────────────────────────────
 /**
@@ -61,7 +61,7 @@ export function useQuery(fetchFn, deps = []) {
   // When deps change, React re-runs this effect automatically.
   useEffect(() => {
     run();
-  }, [run]);
+  }, [run]);//this is here for when 'run' change we run the use effect, or the run() inside it, pretty much
 
   return { data, loading, error, refetch: run };
 }
@@ -77,7 +77,8 @@ export function useQuery(fetchFn, deps = []) {
  *   const { mutate, loading, error, success } = useMutation(createClass);
  *
  *   async function handleSubmit(formData) {
- *     const result = await mutate(formData);
+ *     const result = await mutate(formData); 
+ * if this succed then do redirect to class index
  *     if (result) navigate("/classes");
  *   }
  */
@@ -86,7 +87,7 @@ export function useMutation(mutateFn) {
   const [error, setError]     = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const mutate = useCallback(async (...args) => {
+  const mutate =  (async (...args) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -98,7 +99,7 @@ export function useMutation(mutateFn) {
       setError(err.message || "Something went wrong");
       return null;
     } finally {
-      setLoading(false);
+      setLoading(false); //so this is how htis is use, i never thought about it
     }
   }, [mutateFn]);
 
@@ -111,6 +112,9 @@ export function useMutation(mutateFn) {
   return { mutate, loading, error, success, reset };
 }
 
+
+
+// i dont get this part am lost
 
 // ─── usePaginatedQuery ────────────────────────────────────────────────────────
 /**
