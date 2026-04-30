@@ -16,7 +16,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePaginatedQuery, useQuery } from "../../hooks/useApi";
-import {  fetchSubjects} from "../../api/subjects";
+import {  fetchSubjects,fetchDepartments} from "../../api/subjects";
 import {
   Button, Badge, Table, Pagination,
   LoadingState, ErrorState, Separator,
@@ -32,6 +32,9 @@ export default function SubjectsList() {
   const [search, setSearch]           = useState("");
   const [departmentFilters, setDepartmentFilters] = useState("");
 
+
+
+  
   // ── Data fetching ───────────────────────────────────────────────────────────
   // usePaginatedQuery takes a function that receives the current page number
   // and returns a Promise. The hook manages loading/error/data/page for us.
@@ -55,7 +58,9 @@ export default function SubjectsList() {
     [search, departmentFilters]
   );
 
+ const { data: departmentsData } = useQuery(() => fetchDepartments(), []);
 
+  const departments = departmentsData?.data ?? [];
 
   // ── Table column definitions ─────────────────────────────────────────────
   // Each column says: what data key to use, what label to show,
@@ -138,7 +143,7 @@ export default function SubjectsList() {
             onChange={(e) => { setDepartmentFilters(e.target.value); setPage(1); }}
           >
             <option value="">All Department</option>
-            {subjects.map((s) => (
+            {departments.map((s) => (
               <option key={s.id} value={s.name}>{s.name}</option>
             ))}
           </select>
