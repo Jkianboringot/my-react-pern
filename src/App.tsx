@@ -28,7 +28,11 @@ import ClassesCreate from "./pages/classes/ClassesCreate";
 import ClassesShow from "./pages/classes/ClassesShow";
 
 
-import DepartmentsList from "./pages/departments/DepartmentsList";
+import SubjectsList from "./pages/subjects/SubjectsList";
+// import SubjectsCreate from "./pages/subjects/SubjectsCreate";
+// import SubjectsShow from "./pages/subjects/SubjectsShow";
+
+import DepartmentsList from "./pages/departments/DepartmentsList.js";
 // import DepartmentsCreate from "./pages/departments/DepartmentsCreate";
 import DepartmentsShow from "./pages/departments/DepartmentsShow";
 
@@ -96,6 +100,10 @@ export default function App() {
                   {/* <Route path="/subjects/create"  element={<SubjectsCreate />} /> */}
 
                   {/* Catch-all 404 */}
+
+                 <Route path="/subjects" element={<SubjectsList />} />
+                  {/* <Route path="/subjects/show/:id" element={<SubjectsShow />} />  */}
+
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>

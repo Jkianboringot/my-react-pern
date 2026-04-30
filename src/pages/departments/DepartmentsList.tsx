@@ -15,12 +15,30 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePaginatedQuery, useQuery } from "../../hooks/useApi";
-import { fetchDepartments, fetchSubjects, fetchTeachers } from "../../api/departments"; 
+import { usePaginatedQuery} from "../../hooks/useApi";
+import { fetchDepartments } from "../../api/departments"; 
 import {
-  Button, Badge, Table, Pagination,
+  Button,  Table, Pagination,
   LoadingState, ErrorState, Separator,
 } from "../../components/UI";
+
+
+
+
+
+interface DepartmentListItem  {
+  id: number;
+  name: string;
+  code?: string | null;
+  description?: string | null;
+  totalSubjects?: number | null;
+};
+
+interface Column<T> {
+  key?: keyof T;
+  label: string;
+  render?: (value: any, row: T) => React.ReactNode;
+}
 
 export default function DepartmentsList() {
   const navigate = useNavigate();
@@ -43,7 +61,7 @@ export default function DepartmentsList() {
     setPage,
     total,
   } = usePaginatedQuery(
-    (p) =>
+    (p:number) =>
       fetchDepartments({
         page: p,
         pageSize: 10,
@@ -59,7 +77,7 @@ export default function DepartmentsList() {
   // ── Table column definitions ─────────────────────────────────────────────
   // Each column says: what data key to use, what label to show,
   // and optionally a `render` function to control how it looks.
-  const columns = [
+  const columns: Column<DepartmentListItem>[] = [
     {
       key: "code",
       label: "Code",

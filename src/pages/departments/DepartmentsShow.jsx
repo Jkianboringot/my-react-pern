@@ -224,12 +224,10 @@ export default function DepartmentsShow() {
     },
   ];
 
-
- const subjectColumns = [
+  const subjectColumns = [
     {
       key: "code",
       label: "Code",
-     
     },
     {
       key: "name",
@@ -238,9 +236,8 @@ export default function DepartmentsShow() {
     {
       key: "description",
       label: "Description",
-    
     },
-    
+
     {
       label: "Actions",
       render: (_, row) => (
@@ -257,7 +254,6 @@ export default function DepartmentsShow() {
     },
   ];
 
-  
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="class-show">
@@ -271,10 +267,6 @@ export default function DepartmentsShow() {
           ← Back to Departments
         </Button>
       </div>
-
-
-
-
 
       <Card>
         <CardHeader>
@@ -297,8 +289,7 @@ export default function DepartmentsShow() {
         </CardContent>
       </Card>
 
-
-  <Card>
+      <Card>
         <CardHeader>
           <CardTitle>Subjects</CardTitle>
         </CardHeader>
