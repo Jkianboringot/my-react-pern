@@ -15,10 +15,10 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePaginatedQuery} from "../../hooks/useApi";
-import { fetchDepartments } from "../../api/departments"; 
+import { usePaginatedQuery } from "../../hooks/useApi";
+import { fetchDepartments } from "../../api/departments";
 import {
-  Button,  Table, Pagination,
+  Button, Table, Pagination,
   LoadingState, ErrorState, Separator,
 } from "../../components/UI";
 
@@ -26,7 +26,7 @@ import {
 
 
 
-interface DepartmentListItem  {
+interface DepartmentListItem {
   id: number;
   name: string;
   code?: string | null;
@@ -47,7 +47,7 @@ export default function DepartmentsList() {
   // Each piece of state that affects what data we show lives here.
   // When any of these change, the useEffect inside usePaginatedQuery re-runs,
   // which sends a new request to the backend with the updated params.
-  const [search, setSearch]           = useState("");
+  const [search, setSearch] = useState("");
 
 
   // ── Data fetching ───────────────────────────────────────────────────────────
@@ -61,12 +61,12 @@ export default function DepartmentsList() {
     setPage,
     total,
   } = usePaginatedQuery(
-    (p:number) =>
+    (p: number) =>
       fetchDepartments({
         page: p,
         pageSize: 10,
-        name: search,
-      
+        name: search, //this is what will be sent in params
+
       }),
     // These are "extra deps" — when any of these change, go back to page 1
     // and re-fetch. This is the pure-React equivalent of Refine's filters.
@@ -81,7 +81,7 @@ export default function DepartmentsList() {
     {
       key: "code",
       label: "Code",
-     
+
     },
     {
       key: "name",
@@ -90,15 +90,15 @@ export default function DepartmentsList() {
     {
       key: "description",
       label: "Description",
-    
+
     },
-     {
+    {
       key: "id",
       label: "Department",
-    
+
     },
 
-   
+
     {
       label: "Actions",
       render: (_, row) => (
@@ -121,7 +121,7 @@ export default function DepartmentsList() {
       {/* <h1 className="page-title">Departments</h1> */}
 
       <div className="intro-row">
-       
+
 
         <div className="actions-row">
           {/* Search input — updates `search` state on every keystroke */}
@@ -142,7 +142,7 @@ export default function DepartmentsList() {
             />
           </div>
 
-    
+
           <Button onClick={() => navigate("/departments/create")}>
             + Create Class
           </Button>
@@ -152,11 +152,7 @@ export default function DepartmentsList() {
       <Separator />
 
       {/* Conditional rendering — show the right UI based on state */}
-      {loading ? (
-        <LoadingState message="Loading departments..." />
-      ) : error ? (
-        <ErrorState message={error} />
-      ) : (
+      {loading ? (<LoadingState message="Loading departments..." />) : error ? (<ErrorState message={error} /> ) : (
         <>
           <Table columns={columns} rows={departments} />
           <Pagination

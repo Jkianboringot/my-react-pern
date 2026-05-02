@@ -43,3 +43,7 @@ export function fetchSubjectDepartment(subjectId, params = {}) {
 export function fetchDepartments() {
   return get("/departments?pageSize=100");
 }
+
+export function fetchClass() {
+  return get(`/classes`);
+}

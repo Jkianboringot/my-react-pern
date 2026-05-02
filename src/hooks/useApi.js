@@ -142,6 +142,8 @@ export function usePaginatedQuery(fetchFn, extraDeps = []) {
     setLoading(true);
     setError(null);
 
+
+    //this is what fetching the query
     fetchRef.current(page)
       .then((res) => {
         if (cancelled) return;

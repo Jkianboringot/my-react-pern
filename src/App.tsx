@@ -30,7 +30,13 @@ import ClassesShow from "./pages/classes/ClassesShow";
 
 import SubjectsList from "./pages/subjects/SubjectsList";
 // import SubjectsCreate from "./pages/subjects/SubjectsCreate";
-// import SubjectsShow from "./pages/subjects/SubjectsShow";
+import SubjectsShow from "./pages/subjects/SubjectsShow";
+
+import FacultyList from "./pages/faculty/FacultyList.js";
+// import SubjectsCreate from "./pages/subjects/SubjectsCreate";
+import FacultyShow from "./pages/faculty/FacultyShow";
+
+
 
 import DepartmentsList from "./pages/departments/DepartmentsList.js";
 // import DepartmentsCreate from "./pages/departments/DepartmentsCreate";
@@ -90,9 +96,9 @@ export default function App() {
                   <Route path="/classes/create" element={<ClassesCreate />} />
                   <Route path="/classes/show/:id" element={<ClassesShow />} />
 
-                 <Route path="/departments" element={<DepartmentsList />} />
+                  <Route path="/departments" element={<DepartmentsList />} />
                   {/* <Route path="/departments/create" element={<DepartmentsCreate />} /> */}
-                  <Route path="/departments/show/:id" element={<DepartmentsShow />} /> 
+                  <Route path="/departments/show/:id" element={<DepartmentsShow />} />
 
 
                   {/* Add your other pages here, e.g.: */}
@@ -101,9 +107,14 @@ export default function App() {
 
                   {/* Catch-all 404 */}
 
-                 <Route path="/subjects" element={<SubjectsList />} />
-                  {/* <Route path="/subjects/show/:id" element={<SubjectsShow />} />  */}
+                  <Route path="/subjects" element={<SubjectsList />} />
+                  <Route path="/subjects/show/:id" element={<SubjectsShow />} />
 
+                  <Route path="/faculty" element={<FacultyList />} />
+                  <Route path="/users/show/:id" element={<FacultyShow />} />
+
+
+                  <Route path="/subjects" element={<SubjectsList />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>
