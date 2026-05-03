@@ -141,7 +141,7 @@ export default function ClassesCreate() {
 
         <CardContent>
           {/* The `onSubmit` on <form> fires when any submit button inside is clicked */}
-          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          <form  m onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 0 }}>
 
             {/* Banner Upload */}
             <FormGroup label="Banner Image" htmlFor="banner">

@@ -42,6 +42,11 @@ import DepartmentsList from "./pages/departments/DepartmentsList.js";
 // import DepartmentsCreate from "./pages/departments/DepartmentsCreate";
 import DepartmentsShow from "./pages/departments/DepartmentsShow";
 
+
+import CreateEnrollment from "./pages/enrollments/CreateEnrollment";
+
+
+
 // Placeholder pages — swap these out with your real pages
 const Dashboard = () => <div><h1 className="page-title">Dashboard</h1><p style={{ marginTop: 12, color: "var(--text-muted)" }}>Welcome back!</p></div>;
 const NotFound = () => <div><h1 className="page-title">404 — Page not found</h1></div>;
@@ -113,8 +118,9 @@ export default function App() {
                   <Route path="/faculty" element={<FacultyList />} />
                   <Route path="/users/show/:id" element={<FacultyShow />} />
 
+                  <Route path="/enrollments/create" element={<CreateEnrollment />} />
 
-                  <Route path="/subjects" element={<SubjectsList />} />
+               
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>

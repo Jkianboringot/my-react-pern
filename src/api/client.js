@@ -41,6 +41,7 @@ async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {
     // Default headers for every request:
     headers: {
+       credentials: "include",
       "Content-Type": "application/json",
       // If the user is logged in, send their token.
       // Laravel's Sanctum or Passport will validate this.
